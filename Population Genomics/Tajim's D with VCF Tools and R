@@ -1,0 +1,133 @@
+061923_TajimasD.txt
+
+## Claculating Tajima's D with VCFTools
+
+
+## Tajima's D provides insights into the evolutionary processes acting on a population by examining the distribution of genetic variants. It helps detect departures from neutral evolution and provides evidence of selective pressures or demographic events that may have shaped the genetic diversity within a population.
+
+## here we calculate TD with VCFTools then visualize each result in R with histograms
+
+
+
+## VCF Tools in Linux
+
+## all MDS Scenarios
+2023-06-19 17:05:08] (pop-gen)
+root@CCG_Workstation: /Micpet_2023# vcftools --vcf msl8_70md_micpet-071921.vcf --TajimaD 10000 --out msl8_70md_tD
+
+VCFtools - 0.1.16
+(C) Adam Auton and Anthony Marcketta 2009
+
+Parameters as interpreted:
+        --vcf msl8_70md_micpet-071921.vcf
+        --out msl8_70md_tD
+        --TajimaD 10000
+
+After filtering, kept 96 out of 96 Individuals
+Outputting Tajima's D Statistic...
+        TajimaD: Only using bialleleic sites.
+After filtering, kept 40900 out of a possible 40900 Sites
+Run Time = 1.00 seconds
+
+[2023-06-19 17:05:21] (pop-gen)
+root@CCG_Workstation: /Micpet_2023# vcftools --vcf msl35_45md_micpet-071921.vcf --TajimaD 10000 --out msl35_45md_td
+
+VCFtools - 0.1.16
+(C) Adam Auton and Anthony Marcketta 2009
+
+Parameters as interpreted:
+        --vcf msl35_45md_micpet-071921.vcf
+        --out msl35_45md_td
+        --TajimaD 10000
+
+After filtering, kept 96 out of 96 Individuals
+Outputting Tajima's D Statistic...
+        TajimaD: Only using bialleleic sites.
+After filtering, kept 13608 out of a possible 13608 Sites
+Run Time = 0.00 seconds
+
+[2023-06-19 17:05:38] (pop-gen)
+root@CCG_Workstation: /Micpet_2023# vcftools --vcf msl29_49md_micpet-071921.vcf --TajimaD 10000 --out msl29_49md_td
+
+VCFtools - 0.1.16
+(C) Adam Auton and Anthony Marcketta 2009
+
+Parameters as interpreted:
+        --vcf msl29_49md_micpet-071921.vcf
+        --out msl29_49md_td
+        --TajimaD 10000
+
+After filtering, kept 96 out of 96 Individuals
+Outputting Tajima's D Statistic...
+        TajimaD: Only using bialleleic sites.
+After filtering, kept 16459 out of a possible 16459 Sites
+Run Time = 0.00 seconds
+
+[2023-06-19 17:05:54] (pop-gen)
+root@CCG_Workstation: /Micpet_2023# vcftools --vcf msl57_40md_micpet-071921.vcf --TajimaD 10000 --out msl57_40md_td
+
+VCFtools - 0.1.16
+(C) Adam Auton and Anthony Marcketta 2009
+
+Parameters as interpreted:
+        --vcf msl57_40md_micpet-071921.vcf
+        --out msl57_40md_td
+        --TajimaD 10000
+
+After filtering, kept 96 out of 96 Individuals
+Outputting Tajima's D Statistic...
+        TajimaD: Only using bialleleic sites.
+After filtering, kept 4974 out of a possible 4974 Sites
+Run Time = 0.00 seconds
+
+
+
+
+
+## Plotting in R
+
+
+
+> library(vcfR)
+
+   *****       ***   vcfR   ***       *****
+   This is vcfR 1.14.0 
+     browseVignettes('vcfR') # Documentation
+     citation('vcfR') # Citation
+   *****       *****      *****       *****
+
+Warning message:
+package ‘vcfR’ was built under R version 4.2.3 
+
+> setwd("J:/Micpet_2023/3.TajimaD")
+> taj.all<-read.table("msl8_70md_tD.Tajima.D", header=TRUE)
+> hist(taj.all$TajimaD, breaks = 100)
+
+
+## all MDS 
+
+> taj.msl8_70md<-read.table("msl8_70md_tD.Tajima.D", header=TRUE)
+> hist(taj.msl8_70md$TajimaD)
+
+> taj.msl29_49md<-read.table("msl29_49md_td.Tajima.D", header=TRUE)
+> hist(taj.msl29_49md$TajimaD)
+
+> taj.msl35_45md<-read.table("msl35_45md_td.Tajima.D", header=TRUE)
+> hist(taj.msl35_45md$TajimaD)
+
+> taj.msl57_30md<-read.table("msl57_40md_td.Tajima.D", header=TRUE)
+> hist(taj.msl57_30md$TajimaD)
+
+
+
+# Positive Skew: If the histogram is skewed towards positive Tajimas D values (right tail), it suggests an excess of intermediate-frequency variants. This can indicate balancing selection or a population contraction, where multiple alleles are maintained at moderate frequencies.
+
+# If the histogram of Tajimas D values exhibits skewness to the right or has a right tail, it suggests an excess of low or negative Tajimas D values compared to the expected distribution under neutral evolution. Skewness to the right indicates an imbalance towards an excess of rare variants or low-frequency alleles, which can be indicative of certain evolutionary processes or population dynamics.
+
+# Possible explanations for a right-skewed Tajima's D histogram include:
+
+# Positive selection: The presence of rare advantageous alleles that have experienced recent positive selection can lead to an excess of low-frequency variants, resulting in a right-skewed distribution of Tajima's D values. This suggests that certain genomic regions or genes may have undergone selective sweeps or experienced positive directional selection.
+
+# Population expansion: A recent population expansion can cause an excess of low-frequency alleles due to the rapid increase in population size. As a result, Tajima's D values become negative or low, leading to a right-skewed histogram. This pattern can be observed when comparing the genetic diversity of a large, expanding population with a smaller, more stable population.
+
+# Purifying selection: Strong purifying selection against deleterious mutations can also lead to a right-skewed Tajima's D histogram. If there is a prevalence of rare, deleterious alleles that have been removed from the population by natural selection, Tajima's D values will be skewed towards the negative end, resulting in a right tail.
