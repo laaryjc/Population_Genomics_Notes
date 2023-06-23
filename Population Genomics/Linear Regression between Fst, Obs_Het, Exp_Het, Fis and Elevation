@@ -1,6 +1,6 @@
 062323.LinReg_FST_ObsHet_Fis_x_elev.txt
 
-## here we perform linear regression in R to evaluate clinal relationship between Fst, Obs_Het, Fis and Elevation 
+## here we perform linear regression in R to evaluate clinal relationship between Fst, Obs_Het, Exp_Het, Fis and Elevation 
 
 
 ## data 
@@ -173,6 +173,59 @@ F-statistic:   5.8 on 1 and 9 DF,  p-value: 0.03936
 
 # In conclusion, based on the regression analysis, there is evidence of a significant relationship between elevation and observed heterozygosity. As elevation increases, observed heterozygosity tends to increase. However, it's important to note that the model only explains a moderate amount of the observed heterozygosity variation, suggesting that other factors not included in the model may also influence heterozygosity levels.
 
+
+
+
+##########################################
+#
+#       Exp_Het vs Elevation
+#
+##########################################
+
+
+exp_het_elev_data <- data.frame(exp_het = genetic_df$Exp_Het, Elevation = site_data$Elevation_Meters)
+model <- lm(exp_het ~ Elevation, data = exp_het_elev_data)
+summary(model)
+
+Call:
+lm(formula = exp_het ~ Elevation, data = exp_het_elev_data)
+
+Residuals:
+      Min        1Q    Median        3Q       Max 
+-0.029028 -0.010863  0.000611  0.006270  0.036784 
+
+Coefficients:
+             Estimate Std. Error t value Pr(>|t|)   
+(Intercept) 5.726e-02  1.270e-02   4.508  0.00147 **
+Elevation   1.054e-05  1.032e-05   1.020  0.33415   
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 0.01937 on 9 degrees of freedom
+Multiple R-squared:  0.1037,	Adjusted R-squared:  0.00412 
+F-statistic: 1.041 on 1 and 9 DF,  p-value: 0.3341
+
+
+
+# In this analysis, we performed linear regression in R to examine the relationship between expected heterozygosity (Exp_Het) and elevation. The purpose was to determine if there is a significant correlation or trend between these variables.
+
+# The results of the linear regression analysis are as follows:
+
+# The coefficient estimate for the relationship between Exp_Het and elevation was [coefficient estimate]. This indicates [interpretation of coefficient estimate]. The p-value associated with this coefficient was [p-value], suggesting [interpretation of p-value]. The adjusted R-squared value for this model was [adjusted R-squared value], indicating [interpretation of adjusted R-squared value].
+
+# Overall, these findings suggest that there is not a significant linear relationship between expected heterozygosity and elevation. The coefficient estimate and p-value indicate that the effect of elevation on expected heterozygosity is not statistically significant. The adjusted R-squared value suggests that elevation explains only a small proportion of the variation in expected heterozygosity.
+
+
+
+#####----- Note -----#####
+
+# Analyzing expected heterozygosity (Exp_Het) derived from SNP data can provide valuable insights into the genetic diversity and variation within a population. Expected heterozygosity is a measure of genetic diversity based on the expected frequencies of different genotypes in a population under Hardy-Weinberg equilibrium. It takes into account the allele frequencies and provides an estimate of the level of heterozygosity expected in the population.
+
+# Using Exp_Het in the analysis allows for a standardized measure of genetic diversity that is independent of the sample size. It provides a baseline expectation of heterozygosity that can be compared across different populations or individuals. This measure is particularly useful in studies involving SNP data, where large-scale genotyping allows for the assessment of genetic diversity at many loci.
+
+# On the other hand, observed heterozygosity (Obs_Het) represents the actual frequency of heterozygotes observed in a population. While Obs_Het is a direct measure of the proportion of heterozygotes, it can be influenced by factors such as sampling variation and deviations from Hardy-Weinberg equilibrium. Obs_Het may also be affected by factors such as inbreeding, population structure, or selection.
+
+# In the context of analyzing genetic patterns and their relationship with elevation, using Exp_Het allows for a more standardized and robust assessment of genetic diversity. It provides insights into the expected levels of heterozygosity in the population, accounting for allele frequencies and genetic variation. By focusing on Exp_Het, researchers can gain a clearer understanding of the underlying genetic diversity patterns and potential effects of environmental factors such as elevation on genetic variation.
 
 
 
