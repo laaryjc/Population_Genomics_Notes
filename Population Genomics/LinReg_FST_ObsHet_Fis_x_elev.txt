@@ -1,0 +1,262 @@
+062323.LinReg_FST_ObsHet_Fis_x_elev.txt
+
+## here we perform linear regression in R to evaluate clinal relationship between Fst, Obs_Het, Fis and Elevation 
+
+
+## data 
+genetic_df
+   Site Obs_Het Exp_Het      Fis
+1   RMT 0.09051 0.09652  0.05593
+2   NTP 0.07070 0.09796  0.09973
+3   RBM 0.08271 0.07722  0.03150
+4   BBF 0.06809 0.06067  0.02417
+5   BBM 0.07545 0.05610  0.01319
+6   PKM 0.08030 0.07598  0.03349
+7   GFM 0.08473 0.07964  0.03094
+8   HRM 0.05413 0.04815  0.02048
+9   STM 0.05800 0.03375 -0.00453
+10   TG 0.07832 0.06474  0.01878
+11  SCM 0.06592 0.06571  0.04065
+
+site_data
+   Site N_samples             Site_Name Latitude Longitude Elevation_Meters Elevation_Feet
+1   RMT        16          Roan Mtn, NC 36.10474 -82.10390             1764       5787.684
+2   NTP        11        Nine Times, SC 34.94474 -82.79566              372       1220.532
+3   RBM        10        Rabun Bald, NC 34.96272 -83.29391             1131       3710.811
+4   BBF         6    Big Bend Falls, SC 34.94234 -83.11648              620       2034.220
+5   BBM         4 Black Balsalm Mtn, NC 35.32450 -82.87142             1741       5712.221
+6   PKM         9       Potato Knob, NC 35.72623 -82.28911             1719       5640.039
+7   GFM         9   Grandfather Mtn, NC 36.09980 -81.82645             1698       5571.138
+8   HRM        10  Hanging Rock Mtn, NC 36.39659 -80.25517              559       1834.079
+9   STM         5         Stone Mtn, NC 36.39012 -81.05083              524       1719.244
+10   TG         8    Tallulah Gorge, GA 34.73597 -83.38980              448       1469.888
+11  SCM         8         Scaly Mtn, NC 35.04286 -83.28329             1441       4727.921
+
+fst_matrix
+         RMT      NTP      RBM      BBF      BBM      PKM      GFM      HRM      STM       TG      SCM
+RMT 0.000000 0.159692 0.188168 0.217554 0.204693 0.188320 0.184286 0.262285 0.306999 0.232321 0.200707
+NTP 0.159692 0.000000 0.163435 0.186786 0.199245 0.190819 0.202729 0.261783 0.304027 0.214406 0.150778
+RBM 0.188168 0.163435 0.000000 0.201946 0.199665 0.200679 0.199113 0.281811 0.294816 0.213610 0.189411
+BBF 0.217554 0.186786 0.201946 0.000000 0.269264 0.221336 0.228546 0.361705 0.371751 0.281507 0.230222
+BBM 0.204693 0.199245 0.199665 0.269264 0.000000 0.224671 0.225393 0.349507 0.496730 0.284487 0.273689
+PKM 0.188320 0.190819 0.200679 0.221336 0.224671 0.000000 0.168522 0.278485 0.289160 0.253728 0.211033
+GFM 0.184286 0.202729 0.199113 0.228546 0.225393 0.168522 0.000000 0.273071 0.323301 0.259669 0.205768
+HRM 0.262285 0.261783 0.281811 0.361705 0.349507 0.278485 0.273071 0.000000 0.353702 0.368023 0.300398
+STM 0.306999 0.304027 0.294816 0.371751 0.496730 0.289160 0.323301 0.353702 0.000000 0.484215 0.300157
+TG  0.232321 0.214406 0.213610 0.281507 0.284487 0.253728 0.259669 0.368023 0.484215 0.000000 0.285616
+
+
+
+
+##########################################
+#
+#       FST vs Elevation
+#
+##########################################
+
+# Convert the FST matrix into a vector
+fst_vector <- as.vector(fst_matrix)
+
+# Create a data frame with FST and elevation values
+fst_elev_data <- data.frame(FST = fst_vector, Elevation = site_data$Elevation_Meters)
+
+# Perform linear regression
+model <- lm(FST ~ Elevation, data = fst_elev_data)
+
+# Print the regression summary
+summary(model)
+
+Call:
+lm(formula = FST ~ Elevation, data = fst_elev_data)
+
+Residuals:
+      Min        1Q    Median        3Q       Max 
+-0.255294 -0.030557  0.001215  0.053865  0.287654 
+
+Coefficients:
+              Estimate Std. Error t value Pr(>|t|)    
+(Intercept)  2.679e-01  1.968e-02   13.61   <2e-16 ***
+Elevation   -3.376e-05  1.600e-05   -2.11   0.0369 *  
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 0.09953 on 119 degrees of freedom
+Multiple R-squared:  0.03608,	Adjusted R-squared:  0.02798 
+F-statistic: 4.454 on 1 and 119 DF,  p-value: 0.03692
+
+
+## The linear regression analysis was performed to assess the relationship between FST values and elevation in the study population. The regression model yielded the following results:
+
+## Intercept: The estimated intercept is 0.2679 with a standard error of 0.0197. This represents the predicted FST value when the elevation is zero.
+
+## Elevation Coefficient: The estimated coefficient for elevation is -3.376e-05 with a standard error of 1.600e-05. This indicates the expected change in the FST value for a one-unit increase in elevation.
+
+## Statistical Significance: The t-value for the elevation coefficient is -2.11, and the associated p-value is 0.0369. This suggests that the relationship between FST and elevation is statistically significant at the 0.05 significance level.
+
+## R-squared: The multiple R-squared value is 0.03608, indicating that approximately 3.6% of the variability in the FST values can be explained by elevation in the regression model.
+
+## Overall, the analysis suggests a weak but statistically significant relationship between FST and elevation in the study population. The negative coefficient for elevation indicates that higher elevations are associated with slightly lower FST values, although the effect size is relatively small. It is important to note that the elevation variable alone explains only a small proportion of the variability in FST values, and other factors not included in the model may also contribute to population differentiation.
+
+##########################################
+#
+#       Plotting
+
+# Plotting the regression results
+plot(fst_elev_data$Elevation, fst_elev_data$FST, xlab = "Elevation", ylab = "FST", main = "Linear Regression: FST vs Elevation")
+
+# Add the regression line to the plot
+abline(model, col = "red")
+
+# Add a legend for the regression line
+legend("topleft", legend = paste("FST =", round(coef(model)[1], 4), "+", round(coef(model)[2], 4), "Elevation"),
+       col = "red", lty = 1, cex = 0.8)
+
+# Add gridlines for better visibility
+grid()
+
+# Calculate the coordinates for placing the text at 70% along the x-axis and y-axis
+x_text <- min(fst_elev_data$Elevation) + 0.7 * diff(range(fst_elev_data$Elevation))
+y_text <- min(fst_elev_data$FST) + 0.7 * diff(range(fst_elev_data$FST))
+
+# Add R-squared value and p-value to the plot
+text(x = x_text, y = y_text,
+     labels = paste("R-squared =", round(summary(model)$r.squared, 4), "\n", "p-value =", round(summary(model)$coefficients[2, 4], 4)),
+     pos = 3)
+
+# Add title and axis labels
+title(main = "Linear Regression: FST vs Elevation")
+
+
+
+
+
+
+##########################################
+#
+#       Obs_Het vs Elevation
+#
+##########################################
+
+## Since we have this data per site, and not as a matrix between sites, we can jsut run the linear regression after makeing a data frame
+
+obs_het_elev_data <- data.frame(obs_het = genetic_df$Obs_Het, Elevation = site_data$Elevation_Meters)
+model <- lm(obs_het ~ Elevation, data = obs_het_elev_data)
+summary(model)
+
+Call:
+lm(formula = obs_het ~ Elevation, data = obs_het_elev_data)
+
+Residuals:
+       Min         1Q     Median         3Q        Max 
+-0.0130250 -0.0072865  0.0002057  0.0072485  0.0124920 
+
+Coefficients:
+             Estimate Std. Error t value Pr(>|t|)    
+(Intercept) 6.047e-02  6.107e-03   9.902 3.88e-06 ***
+Elevation   1.195e-05  4.964e-06   2.408   0.0394 *  
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 0.009313 on 9 degrees of freedom
+Multiple R-squared:  0.3919,	Adjusted R-squared:  0.3243 
+F-statistic:   5.8 on 1 and 9 DF,  p-value: 0.03936
+
+
+
+# The linear regression model between observed heterozygosity (obs_het) and elevation (Elevation) resulted in the following summary:
+
+# The intercept of the model is estimated to be 0.06047 with a standard error of 0.006107. The coefficient for elevation is estimated to be 1.195e-05 with a standard error of 4.964e-06. The t-value for the coefficient is 2.408, indicating a statistically significant relationship between observed heterozygosity and elevation. The p-value associated with the coefficient is 0.0394, which is below the significance level of 0.05, suggesting that elevation has a significant effect on observed heterozygosity.
+
+# The multiple R-squared value is 0.3919, indicating that approximately 39.19% of the variance in observed heterozygosity can be explained by the linear relationship with elevation. The adjusted R-squared value is 0.3243, which takes into account the degrees of freedom and penalizes for the number of predictors.
+
+# The F-statistic for the model is 5.8, with a p-value of 0.03936, indicating that the overall model is statistically significant in explaining the relationship between observed heterozygosity and elevation.
+
+# In conclusion, based on the regression analysis, there is evidence of a significant relationship between elevation and observed heterozygosity. As elevation increases, observed heterozygosity tends to increase. However, it's important to note that the model only explains a moderate amount of the observed heterozygosity variation, suggesting that other factors not included in the model may also influence heterozygosity levels.
+
+
+
+
+
+##########################################
+#
+#       Fis vs Elevation
+#
+##########################################
+
+
+
+
+fis_elev_data <- data.frame(obs_het = genetic_df$Fis, Elevation = site_data$Elevation_Meters)
+model <- lm(obs_het ~ Elevation, data = fis_elev_data)
+summary(model)
+
+
+Call:
+lm(formula = obs_het ~ Elevation, data = fis_elev_data)
+
+Residuals:
+      Min        1Q    Median        3Q       Max 
+-0.038056 -0.013911 -0.001749  0.004297  0.066096 
+
+Coefficients:
+              Estimate Std. Error t value Pr(>|t|)
+(Intercept)  3.390e-02  1.865e-02   1.818    0.102
+Elevation   -7.127e-07  1.516e-05  -0.047    0.964
+
+Residual standard error: 0.02844 on 9 degrees of freedom
+Multiple R-squared:  0.0002455,	Adjusted R-squared:  -0.1108 
+F-statistic: 0.00221 on 1 and 9 DF,  p-value: 0.9635
+
+
+
+# The linear regression model between Fis values (obs_het) and elevation (Elevation) resulted in the following summary:
+
+# The intercept of the model is estimated to be 0.03390 with a standard error of 0.01865. The coefficient for elevation is estimated to be -7.127e-07 with a standard error of 1.516e-05. The t-value for the coefficient is -0.047, indicating that there is no significant relationship between Fis values and elevation. The p-value associated with the coefficient is 0.964, which is greater than the significance level of 0.05, suggesting that elevation does not have a significant effect on Fis values.
+
+# The multiple R-squared value is 0.0002455, indicating that only a very small proportion of the variance in Fis values can be explained by the linear relationship with elevation. The adjusted R-squared value is -0.1108, which is negative. This suggests that the model does not fit the data well and that the inclusion of elevation as a predictor does not improve the model's ability to explain the variation in Fis values.
+
+# The F-statistic for the model is 0.00221, with a p-value of 0.9635, indicating that the overall model is not statistically significant in explaining the relationship between Fis values and elevation.
+
+# In conclusion, based on the regression analysis, there is no evidence of a significant relationship between elevation and Fis values. Elevation does not appear to have a meaningful influence on Fis values in this dataset.
+
+
+
+## Adjusted R-squared values calculation
+
+## to further investigate, we can calculate the adjusted R-squared values using the summary() function on the linear regression model. It then creates a data frame with site names and adjusted R-squared values and plots them using ggplot2. 
+
+# Calculate adjusted R-squared values
+adj_r_squared <- summary(model)$adj.r.squared
+
+# Create a data frame with site names and adjusted R-squared values
+site_rsq_data <- data.frame(Site = site_data$Site, Adj_Rsq = adj_r_squared)
+
+# Plot the adjusted R-squared values
+ggplot(site_rsq_data, aes(x = Site, y = Adj_Rsq)) +
+  geom_bar(stat = "identity", fill = "blue") +
+  geom_text(aes(label = round(Adj_Rsq, 3)), vjust = -0.5, size = 3) +
+  labs(x = "Site", y = "Adjusted R-squared") +
+  ggtitle("Adjusted R-squared by Site") +
+  theme_bw()
+
+# list the site_rsq_data table
+site_rsq_data
+
+   Site    Adj_Rsq
+1   RMT -0.1108384
+2   NTP -0.1108384
+3   RBM -0.1108384
+4   BBF -0.1108384
+5   BBM -0.1108384
+6   PKM -0.1108384
+7   GFM -0.1108384
+8   HRM -0.1108384
+9   STM -0.1108384
+10   TG -0.1108384
+11  SCM -0.1108384
+
+
+# As all the adjusted R-squared values are the same and negative, it suggests that the linear regression model with elevation as the predictor variable does not provide a good fit to the data.
+
+# There could be several reasons for this, such as a lack of linear relationship between the elevation and the response variable, the presence of other important predictors not included in the model, or the presence of non-linear relationships that are not captured by a simple linear regression model.
+
