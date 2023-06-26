@@ -1,4 +1,4 @@
-This is a repository of my personal notes collected during the various analyses of <i>Micranthes petiolaris</i> species within the southern Blue Ridge Escarpment
+This is a repository of my personal notes collected during the various population genomic analyses of SNP and whole genome data
 
 These notes are not a tutorial, but a raw record of trial and error for individual analyses.
 
