@@ -1,0 +1,77 @@
+ 092221_StamppNotes.txt
+
+## Today i use StamPP in R to calculate the Fst of the populations for each dataset, of msl8_70, msl29_49, msl35_45, and msl57_30
+
+## Summary of commands
+
+
+library(StAMPP, lib.loc = "C:/Program Files/R/R-4.0.5/library")
+setwd("H:/Users/laaryjc/OneDrive - Clemson University/CU/PhD.2015/JournalArticles/2.MolecularEcology/030821_HiSeqData/micpet-071921_outfiles_msl57_30missdata")
+micpet_msl57_30_genlight <- vcfR2genlight(micpet_msl57_30_vcf)
+pop(micpet_msl57_30_genlight) <- as.factor(c("NTP","RBM","RBM","RBM","RBM","RBM","RBM","RBM","RBM","RBM","RBM","BBF","BBF","BBF","BBF","BBF","BBF","BBM","BBM","BBM","PKM","PKM","PKM","PKM","PKM","PKM","GFM","GFM","GFM","GFM","GFM","GFM","HRM","HRM","STM","RMT","RMT","PKM","PKM","HRM","HRM","HRM","STM","STM","STM","STM","BBM","PKM","GFM","GFM","GFM","HRM","HRM","HRM","HRM","HRM","TG","TG","TG","TG","TG","TG","TG","TG","SCM","SCM","SCM","SCM","SCM","SCM","SCM","SCM","RMT","RMT","RMT","RMT","RMT","RMT","RMT","NTP","NTP","NTP","NTP","NTP","RMT","NTP","NTP","NTP","NTP","NTP","RMT","RMT","RMT","RMT","RMT","RMT"))
+micpet_msl57_30_freq <- stamppConvert(micpet_msl57_30_genlight,type = "genlight")
+micpet_msl57_30_fst <- stamppFst(micpet_msl57_30_freq, 100, 95, 1)
+View(micpet_msl57_30_fst)
+View(micpet_msl57_30_fst$Fsts)
+
+
+
+
+## R Work
+
+## Load the LIbrary
+> library(StAMPP, lib.loc = "C:/Program Files/R/R-4.0.5/library")
+Loading required package: pegas
+Loading required package: ape
+Registered S3 method overwritten by 'pegas':
+  method      from
+  print.amova ade4
+
+Attaching package: ‘pegas’
+
+The following object is masked from ‘package:ape’:
+
+    mst
+
+The following objects are masked from ‘package:vcfR’:
+
+    getINFO, write.vcf
+
+The following object is masked from ‘package:ade4’:
+
+    amova
+
+
+## set the working directory to the vcf file
+
+> setwd("H:/Users/laaryjc/OneDrive - Clemson University/CU/PhD.2015/JournalArticles/2.MolecularEcology/030821_HiSeqData/micpet-071921_outfiles_msl57_30missdata")
+
+## convert vcf to genlight object\
+
+> micpet_msl57_30_genlight <- vcfR2genlight(micpet_msl57_30_vcf)
+Warning message:
+In vcfR2genlight(micpet_msl57_30_vcf) :
+  Found 139 loci with more than two alleles.
+Objects of class genlight only support loci with two alleles.
+139 loci will be omitted from the genlight object.
+
+## assign populations to the individual samples
+
+> pop(micpet_msl57_30_genlight) <- as.factor(c("NTP","RBM","RBM","RBM","RBM","RBM","RBM","RBM","RBM","RBM","RBM","BBF","BBF","BBF","BBF","BBF","BBF","BBM","BBM","BBM","PKM","PKM","PKM","PKM","PKM","PKM","GFM","GFM","GFM","GFM","GFM","GFM","HRM","HRM","STM","RMT","RMT","PKM","PKM","HRM","HRM","HRM","STM","STM","STM","STM","BBM","PKM","GFM","GFM","GFM","HRM","HRM","HRM","HRM","HRM","TG","TG","TG","TG","TG","TG","TG","TG","SCM","SCM","SCM","SCM","SCM","SCM","SCM","SCM","RMT","RMT","RMT","RMT","RMT","RMT","RMT","NTP","NTP","NTP","NTP","NTP","RMT","NTP","NTP","NTP","NTP","NTP","RMT","RMT","RMT","RMT","RMT","RMT"))
+
+## calculate frequencies of the genlight object
+
+> micpet_msl57_30_freq <- stamppConvert(micpet_msl57_30_genlight,type = "genlight")
+
+## calculate Fst using stampp
+
+> micpet_msl57_30_fst <- stamppFst(micpet_msl57_30_freq, 100, 95, 1)
+
+## view the Fst object
+
+> View(micpet_msl57_30_fst)
+
+## view the fst values
+
+> View(micpet_msl57_30_fst$Fsts)
+
